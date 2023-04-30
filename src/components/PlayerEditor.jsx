@@ -166,20 +166,20 @@ function getPossibleWeights(positionIndex, heightIndex) {
 function getPossibleWeightsForC(heightIndex) {
   switch (heightIndex) {
     case 8:
-      return ["230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305/310", "315/320", "325-350"];
+      return ["230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305-350"];
     case 7:
     case 6:
-      return ["220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305/310", "315/320", "325-350"];
+      return ["220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305-350"];
     case 5:
     case 4:
-      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305/310", "315/320", "325-350"];
+      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305-350"];
     case 3:
     case 2:
-      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305/310", "315/320", "325-345"];
+      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305-345"];
     case 1:
     case 0:
     default:
-      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305/310", "315/320", "325-335"];
+      return ["215/220", "225/230", "235/240", "245/250", "255/260", "265/270", "275/280", "285/290", "295/300", "305-335"];
   }
 }
 function getPossibleWeightsForPF(heightIndex) {
@@ -396,7 +396,7 @@ function getDefaultDrivingLayupIndex(positionIndex) {
 function getAltheticValue(possibleHeights, heightIndex, possibleWeights, weightIndex) {
   const heightValue = getHeightValue(possibleHeights, heightIndex);
   const calculatedWeight = getWeightValue(possibleWeights, weightIndex);
-  const weightValue = Math.floor((Math.min(calculatedWeight, 321) - 151) / 10);
+  const weightValue = Math.floor((Math.min(calculatedWeight, 301) - 151) / 10);
   const athleticValue = heightValue + weightValue;
   return athleticValue;
 }
@@ -1041,14 +1041,8 @@ function getPossibleAthleticAttributes(athleticValue) {
   else if (athleticValue < 28) {
     return [65, 70, 75];
   }
-  else if (athleticValue < 30) {
-    return [60, 65, 70];
-  }
-  else if (athleticValue < 32) {
-    return [55, 60, 65];
-  }
   else {
-    return [50, 55, 60];
+    return [60, 65, 70];
   }
 }
 function getDefaultAthleticAttributeIndex(athleticValue) {
