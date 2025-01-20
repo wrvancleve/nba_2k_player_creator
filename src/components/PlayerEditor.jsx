@@ -32,14 +32,37 @@ const EditorHeader = styled.h2`
   margin-bottom: 0.25em;
 `
 
-const InvalidPointsP = styled.p`
-  color: red;
+const FewerPointsP = styled.p`
+  color: #ECE81A;
+  font-weight: bold;
+`
+
+const EnoughPointsP = styled.p`
+  color: #4BB543;
+  font-weight: bold;
+`
+
+const ExtraPointsP = styled.p`
+  color: #B33A3A;
+  font-weight: bold;
 `
 
 import PLAYER_POSITIONS from '../models/position';
 
+const MAX_PLAYER_SPECIALTIES = 10;
+
+const MAX_PLAYER_POINTS = 120;
+
 function getHeightValue(possibleHeights, heightIndex) {
   switch (possibleHeights[heightIndex]) {
+    case "7'7":
+      return 19;
+    case "7'6":
+      return 18;
+    case "7'5":
+      return 17;
+    case "7'4":
+      return 16;
     case "7'3":
       return 15;
     case "7'2":
@@ -1017,32 +1040,35 @@ function getDefaultStrengthIndex(possibleWeights, weightIndex) {
 }
 
 function getPossibleAthleticAttributes(athleticValue) {
-  if (athleticValue < 11) {
+  if (athleticValue < 8) {
     return [99];
   }
-  else if (athleticValue < 14) {
+  else if (athleticValue < 11) {
     return [95, 99];
   }
-  else if (athleticValue < 17) {
+  else if (athleticValue < 14) {
     return [90, 95, 99];
   }
-  else if (athleticValue < 20) {
+  else if (athleticValue < 17) {
     return [85, 90, 95];
   }
-  else if (athleticValue < 22) {
+  else if (athleticValue < 20) {
     return [80, 85, 90];
   }
-  else if (athleticValue < 24) {
+  else if (athleticValue < 22) {
     return [75, 80, 85];
   }
-  else if (athleticValue < 26) {
+  else if (athleticValue < 24) {
     return [70, 75, 80];
   }
-  else if (athleticValue < 28) {
+  else if (athleticValue < 26) {
     return [65, 70, 75];
   }
-  else {
+  else if (athleticValue < 28) {
     return [60, 65, 70];
+  }
+  else {
+    return [55, 60, 65];
   }
 }
 function getDefaultAthleticAttributeIndex(athleticValue) {
@@ -1320,7 +1346,7 @@ export default function PlayerEditor({playerData, savePlayer, clearSelectedPlaye
 
   function addSpecialty(attributeKey) {
     const currentPlayerSpecialties = [...playerSpecialties];
-    if (!currentPlayerSpecialties.includes(attributeKey) && currentPlayerSpecialties.length !== 5) {
+    if (!currentPlayerSpecialties.includes(attributeKey) && currentPlayerSpecialties.length !== MAX_PLAYER_SPECIALTIES) {
       currentPlayerSpecialties.push(attributeKey);
       setPlayerSpecialties(currentPlayerSpecialties);
     }
@@ -1429,10 +1455,23 @@ export default function PlayerEditor({playerData, savePlayer, clearSelectedPlaye
         </Stack>
         <Stack spacing={2} direction="row">
           <label>Points Used:</label>
-          {pointsUsed !== 115
-            ? <InvalidPointsP>{pointsUsed}/115</InvalidPointsP>
-            : <p>{pointsUsed}/115</p>
+          {pointsUsed !== MAX_PLAYER_POINTS
+            ? pointsUsed > MAX_PLAYER_POINTS
+              ? <ExtraPointsP>{pointsUsed}/{MAX_PLAYER_POINTS}</ExtraPointsP>
+              : <FewerPointsP>{pointsUsed}/{MAX_PLAYER_POINTS}</FewerPointsP>
+            : <EnoughPointsP>{pointsUsed}/{MAX_PLAYER_POINTS}</EnoughPointsP>
           }
+        </Stack>
+        <Stack spacing={2} direction="row">
+          <label>Specialties Used:</label>
+          {playerSpecialties.length !== MAX_PLAYER_SPECIALTIES
+            ? playerSpecialties.length > MAX_PLAYER_SPECIALTIES
+              ? <ExtraPointsP>{playerSpecialties.length}/{MAX_PLAYER_SPECIALTIES}</ExtraPointsP>
+              : <FewerPointsP>{playerSpecialties.length}/{MAX_PLAYER_SPECIALTIES}</FewerPointsP>
+            : <EnoughPointsP>{playerSpecialties.length}/{MAX_PLAYER_SPECIALTIES}</EnoughPointsP>
+          }
+        </Stack>
+        <Stack spacing={2} direction="row">
           <Button variant="contained" color="success" startIcon={<SaveIcon />} onClick={saveCurrentPlayer}>Save</Button>
           <Button variant="contained" color="error" startIcon={<CancelIcon />} onClick={clearSelectedPlayerId}>Cancel</Button>
         </Stack>
